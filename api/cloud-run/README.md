@@ -2,7 +2,7 @@
 
 ## Create `Dockerfile`
 ```
-FROM node:10
+FROM node:22
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install

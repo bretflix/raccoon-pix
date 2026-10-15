@@ -8,8 +8,8 @@
     "start": "node app.js"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/bretmcg/raccoon-pix.git"
+    "type": "git",
+    "url": "https://github.com/bretmcg/raccoon-pix.git"
   },
   "author": "Bret McGowen",
   "license": "Apache-2.0",
@@ -20,9 +20,9 @@
     "panda"
   ],
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.22.3"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=22"
   }
 }
