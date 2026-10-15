@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [web, api/app, api/cloud-run, api/function, api/demo]
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ matrix.dir }}/package-lock.json
+      - run: npm ci
+      - name: Smoke test
+        run: |
+          wait_for() {
+            for i in $(seq 1 30); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' localhost:8080/ || true)
+              if [ "$code" = "$1" ]; then
+                echo "GET / returned $code"
+                return 0
+              fi
+              sleep 1
+            done
+            echo "GET / did not return $1 within 30s (last: $code)"
+            return 1
+          }
+          case "${{ matrix.dir }}" in
+            web)
+              PORT=8080 node app.js &
+              wait_for 200
+              ;;
+            api/app|api/cloud-run)
+              PORT=8080 GOOGLE_APPLICATION_CREDENTIALS=/nonexistent node index.js &
+              wait_for 404
+              ;;
+            api/function|api/demo)
+              node -e "require('./index.js').getRaccoon({query:{}},{send:s=>{if(!/Invalid raccoon ID/.test(s))process.exit(1);console.log(s)}})"
+              ;;
+          esac

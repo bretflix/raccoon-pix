@@ -1,0 +1,102 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+    groups:
+      web-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      web-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "express"
+        update-types:
+          - "version-update:semver-major"
+
+  - package-ecosystem: npm
+    directory: /api/app
+    schedule:
+      interval: weekly
+    groups:
+      api-app-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      api-app-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "express"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "@google-cloud/firestore"
+        update-types:
+          - "version-update:semver-major"
+
+  - package-ecosystem: npm
+    directory: /api/cloud-run
+    schedule:
+      interval: weekly
+    groups:
+      api-cloud-run-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      api-cloud-run-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "express"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "@google-cloud/firestore"
+        update-types:
+          - "version-update:semver-major"
+
+  - package-ecosystem: npm
+    directory: /api/function
+    schedule:
+      interval: weekly
+    groups:
+      api-function-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      api-function-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "@google-cloud/firestore"
+        update-types:
+          - "version-update:semver-major"
+
+  - package-ecosystem: npm
+    directory: /api/demo
+    schedule:
+      interval: weekly
+    groups:
+      api-demo-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      api-demo-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "@google-cloud/firestore"
+        update-types:
+          - "version-update:semver-major"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
