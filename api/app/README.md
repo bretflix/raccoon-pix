@@ -2,7 +2,7 @@
 
 ## Install `Express` web framework:
 ```shell
-npm install express
+npm install express@4
 ```
 
 `index.js`:

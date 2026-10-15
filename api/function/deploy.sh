@@ -1,3 +1,3 @@
 gcloud functions deploy getRaccoon --trigger-http \
-  --runtime nodejs14 \
+  --runtime nodejs22 \
   --allow-unauthenticated
