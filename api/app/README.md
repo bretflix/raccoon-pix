@@ -19,10 +19,14 @@ app.listen(port, () => {
 ### Set up routes
 `index.js`:
 ```js
-app.get('/raccoons/:id', async (req, res) => {
-  const id = req.params.id;
-  // ...
-}
+app.get('/raccoons/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    // ...
+  } catch (err) {
+    next(err);
+  }
+});
 ```
 
 ## (Optional) `app.yaml` for App Engine.
