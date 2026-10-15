@@ -9,11 +9,15 @@ app.listen(port, () => {
   console.log('RaccoonPix API listening on port', port);
 });
 
-app.get('/raccoons/:id', async (req, res) => {
-  const id = req.params.id;
-  const doc = await firestore.collection('raccoons').doc(id).get();
-  res.json({
-    status: 'success',
-    raccoon: doc.data()
-  });
+app.get('/raccoons/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const doc = await firestore.collection('raccoons').doc(id).get();
+    res.json({
+      status: 'success',
+      raccoon: doc.data()
+    });
+  } catch (err) {
+    next(err);
+  }
 });
